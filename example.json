@@ -1,0 +1,45 @@
+// To go in the course.json file
+_userLevelGradingBoundaries: {
+    "_diffuseAssessments": [
+        {
+            "_assessmentId": "knowledgeQuestions",
+            "_weighting": 15
+        },
+        {
+            "_assessmentId": "summativeQuestions",
+            "_weighting": 15
+        }
+    ],
+    "_contribAssessment": {
+        "_weighting": 70
+    },
+    "_userLevels": [
+        {
+            "_id": "beginner",
+            "title": "Beginner",
+            "_boundaries": {
+                "_pass": 40,
+                "_merit": 50,
+                "_distinction": 60
+            }
+        },
+        {
+            "_id": "intermediate",
+            "title": "Intermediate",
+            "_boundaries": {
+                "_pass": 50,
+                "_merit": 60,
+                "_distinction": 70
+            }
+        }
+        {
+            "_id": "advanced",
+            "title": "Advanced",
+            "_boundaries": {
+                "_pass": 60,
+                "_merit": 70,
+                "_distinction": 80
+            }
+        }
+    ]
+}
