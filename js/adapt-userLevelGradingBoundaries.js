@@ -16,7 +16,7 @@ define(function(require) {
 
 	var userLevelGradingBoundaries = new (Backbone.View.extend({
 		model: new Backbone.Model({
-			_isResultsShow: false,
+			_isResultsShown: false,
 			_views: []
 		}),
 		navigateToOther: function(page, replace) {
