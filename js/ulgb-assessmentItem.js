@@ -45,7 +45,8 @@ define(function(require) {
 				width: $div.width(),
 				height: $div.width()
 			};
-			//TODO: move colors to config
+
+
 			switch (_type) {
 			case "percentage":
 				var className = model._isComplete === true
@@ -67,10 +68,11 @@ define(function(require) {
 				$(bindto).html("").append(tick);
 				return;
 			case "pie":
+				var colors = [ model._results._chart._colors._passed,  model._results._chart._colors._failed, model._results._chart._colors._incomplete ];
 				chartData = {
 				    bindto: bindto,
 				    color: {
-				    	pattern: ['green','red', 'white']
+				    	pattern: colors
 				    },
 				    interaction: {
 				    	enabled: false
@@ -118,10 +120,11 @@ define(function(require) {
 				};
 				break;
 			case "donut":
+				var colors = [ model._results._chart._colors._passed,  model._results._chart._colors._failed, model._results._chart._colors._incomplete ];
 				chartData = {
 				    bindto: bindto,
 				    color: {
-				    	pattern: ['green','red', 'white']
+				    	pattern: colors
 				    },
 				    interaction: {
 				    	enabled: false
@@ -170,10 +173,11 @@ define(function(require) {
 				};
 				break;
 			case "bar":
+				var colors = [ model._results._chart._colors._passed,  model._results._chart._colors._failed, model._results._chart._colors._incomplete ];
 				chartData = {
 				    bindto: bindto,
 				    color: {
-				    	pattern: ['green','red', 'white']
+				    	pattern: colors
 				    },
 				    interaction: {
 				    	enabled: false

@@ -17,7 +17,12 @@
                     "body": "Combined results of all questions",
                     "_chart": { //show chart in results panel
                         "_type": "donut", //donut/pie/bar/percentage/tick
-                        "_size": "large" //small/medium/large
+                        "_size": "large", //small/medium/large
+                        "_colors": { //for donut/pie/bar graphs
+                            "_incomplete": "white",
+                            "_passed": "green",
+                            "_failed": "red"
+                        }
                     },
                     "_size": "full", //half/full width results component
                     "_order": 0 //order resutls components by
