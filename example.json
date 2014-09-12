@@ -1,90 +1,662 @@
 // To go in the course.json file
 "_userLevelGradingBoundaries": {
+        "header": "Ongoing Course Progress",
+        "title": "Title",
+        "body": "Body text",
+        "_buttons": {
+            "end": "Close Course Progress"
+        },
         "_diffuseAssessment": {
             "_assessments" : [
                 {
-                    "_assessmentId": "knowledgeQuestions",
-                    "title": "Knowledge Questions",
-                    "_weighting": 15,
-                    "_chart": {
-                        "_type": "donut"
-                    }
-                },
-                {
-                    "_assessmentId": "summativeQuestions",
-                    "title": "Summative Questions",
-                    "_weighting": 15,
-                    "_chart": {
-                        "_type": "donut"
-                    }
-                },
-                {
                     "_assessmentId": "total",
-                    "title": "Total",
-                    "_weighting": 15,
-                    "_chart": {
-                        "_type": "donut"
+                    "_scoreToPassAsPercent": 100,
+                    "_results" : {
+                        "title": "Total",
+                        "body": "Combined results of all questions",
+                        "_chart": {
+                            "_type": "donut",
+                            "_size": "large"
+                        },
+                        "_size": "full",
+                        "_order": 0
                     },
-                    "_feedback": [
+                    "_marking": [
                         {
                             "_forScoreAsPercent": {
                                 "_min": 0,
-                                "_max": 33
+                                "_max": 25
                             },
-                            "title": "You are on track for a Pass!",
-                            "body": "Pass"
+                            "_mark": "fail",
+                            "displayMark": "fail"
                         },
                         {
                             "_forScoreAsPercent": {
-                                "_min": 34,
-                                "_max": 66
+                                "_min": 26,
+                                "_max": 50
                             },
-                            "title": "You are on track for a Merit!",
-                            "body": "Merit"
+                            "_mark": "pass",
+                            "displayMark": "bronze"
                         },
                         {
                             "_forScoreAsPercent": {
-                                "_min": 67,
+                                "_min": 51,
+                                "_max": 75
+                            },
+                            "_mark": "merit",
+                            "displayMark": "silver"
+                        },
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 76,
                                 "_max": 100
                             },
-                            "title": "You are on track for a Distinction!",
-                            "body": "Distinction"
+                            "_mark": "distinction",
+                            "displayMark": "gold"
+                        }
+                    ],
+                    "_feedback": [
+                        {
+                            "_forProjectedMark": "fail",
+                            "_forHighestMark": "fail",
+                            "title": "Predictive Marking Feedback: Fail, Fail",
+                            "body": "Predictive Marking Feedback: You will need to do some more reading before your final assessment! You are currently on target to get a {{_highestMark.displayMark}}"
+                        },
+                        {
+                            "_forProjectedMark": "fail",
+                            "_forHighestMark": "pass merit distinction",
+                            "title": "Predictive Marking Feedback: Fail, [Pass Merit Distinction]",
+                            "body": "Predictive Marking Feedback: Keep going, you should be able to achieve a {{_highestMark.displayMark}}!"
+                        },
+                        {
+                            "_forProjectedMark": "pass",
+                            "_forHighestMark": "pass",
+                            "title": "Predictive Marking Feedback: Pass, Pass",
+                            "body": "Predictive Marking Feedback: You are predicted a {{_projectedMark.displayMark}}. Keep going and give it all you've got!"
+                        },
+                        {
+                            "_forProjectedMark": "merit",
+                            "_forHighestMark": "merit",
+                            "title": "Predictive Marking Feedback: Merit, Merit",
+                            "body": "Predictive Marking Feedback: You are predicted a {{_projectedMark.displayMark}}. Keep going and give it all you've got!"
+                        },
+                        {
+                            "_forProjectedMark": "distinction",
+                            "_forHighestMark": "distinction",
+                            "title": "Predictive Marking Feedback: Distinction, Distinction",
+                            "body": "Predictive Marking Feedback: You are predicted a {{_projectedMark.displayMark}}. Keep going and give it all you've got!"
+                        },
+                        {
+                            "_forProjectedMark": "pass",
+                            "_forHighestMark": "merit distinction",
+                            "title": "Predictive Marking Feedback: Pass, [Merit, Distinction]",
+                            "body": "Predictive Marking Feedback: You are predicted a {{_projectedMark.displayMark}}. However you are able to acheive a {{_highestMark.displayMark}}! Keep going and give it all you've got!"
+                        },
+                        {
+                            "_forProjectedMark": "merit",
+                            "_forHighestMark": "distinction",
+                            "title": "Predictive Marking Feedback: Merit, Distinction",
+                            "body": "Predictive Marking Feedback: You are predicted a {{_projectedMark.displayMark}}. However you are able to acheive a {{_highestMark.displayMark}}! Keep going and give it all you've got!"
+                        },
+                        {
+                            "_forFinalMark": "fail",
+                            "title": "Variable Marking Feedback: Fail",
+                            "body": "Final Marking Feedback: You will need to try a bit harder in your final assessment!"
+                        },
+                        {
+                            "_forFinalMark": "pass",
+                            "title": "Variable Marking Feedback: Pass",
+                            "body": "Final Marking Feedback: You should be on track to achieve a {{_projectedMark.displayMark}} in your final assessment."
+                        },
+                        {
+                            "_forFinalMark": "merit",
+                            "title": "Variable Marking Feedback: Merit",
+                            "body": "Final Marking Feedback: You should be on track to achieve a {{_projectedMark.displayMark}} in your final assessment."
+                        },
+                        {
+                            "_forFinalMark": "distinction",
+                            "title": "Variable Marking Feedback: Distinction",
+                            "body": "Final Marking Feedback: You should be on track to achieve a {{_projectedMark.displayMark}} in your final assessment."
+                        }
+                    ]
+                },
+                {
+                   
+                    "_assessmentId": "bank1",
+                    "_scoreToPassAsPercent": 100,
+                    "_results": {
+                        "title": "Bank1 - Learning outcome etc.",
+                        "body": "This is a section for Bank1 - Learning outcome etc.",
+                        "_size": "full",
+                        "_order": 1,
+                        "_chart": {
+                            "_type": "percentage",
+                            "_size": "medium"
+                        }
+                    },
+                    "_marking": [
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 0,
+                                "_max": 49
+                            },
+                            "_mark": "fail",
+                            "displayMark": "fail"
+                        },
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 50,
+                                "_max": 99
+                            },
+                            "_mark": "pass",
+                            "displayMark": "pass"
+                        },
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 100,
+                                "_max": 100
+                            },
+                            "_mark": "all",
+                            "displayMark": "all"
+                        }
+                    ],
+                    "_quizBank": {
+                        "_quizBankID": 1,
+                        "_feedback": [
+                            {
+                                "_forFinalMark": "fail",
+                                "_itemsAsPercent": 100,
+                                "_items": 2,
+                                "title": "Quiz Bank Feedback: Adjustment",
+                                "body": "Quiz Bank Feedback: Due to your poor performance you must attempt {{_currentQuizBankFeedback._items}} questions from this learning outcome in the final assessment"
+                            },
+                            {
+                                "_forFinalMark": "pass",
+                                "_itemsAsPercent": 50,
+                                "_items": 1,
+                                "title": "Quiz Bank Feedback: Adjustment",
+                                "body": "Quiz Bank Feedback: Due to your excellent performance you must attempt 1 questions from this learning outcome in the final assessment"
+                            },
+                            {
+                                "_forFinalMark": "all",
+                                "_itemsAsPercent": 0,
+                                "_items": 0,
+                                "title": "Quiz Bank Feedback: Adjustment",
+                                "body": "Quiz Bank Feedback: Due to your excellent performance you will not need to attempt any questions from this learning outcome in the final assessment"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "_assessmentId": "bank2",
+                    "_scoreToPassAsPercent": 100,
+                    "_results": {
+                        "title": "Bank2 - Learning outcome etc.",
+                        "body": "This is a section for Bank2 - Learning outcome etc.",
+                        "_size": "full",
+                        "_order": 1,
+                        "_chart": {
+                            "_type": "percentage",
+                            "_size": "medium"
+                        }
+                    },
+                    "_marking": [
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 0,
+                                "_max": 49
+                            },
+                            "_mark": "fail",
+                            "displayMark": "fail"
+                        },
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 50,
+                                "_max": 99
+                            },
+                            "_mark": "pass",
+                            "displayMark": "pass"
+                        },
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 100,
+                                "_max": 100
+                            },
+                            "_mark": "all",
+                            "displayMark": "all"
+                        }
+                    ],
+                    "_quizBank": {
+                        "_quizBankID": 2,
+                        "_feedback": [
+                            {
+                                "_forFinalMark": "fail",
+                                "_itemsAsPercent": 100,
+                                "_items": 2,
+                                "title": "Quiz Bank Feedback: Adjustment",
+                                "body": "Quiz Bank Feedback: Due to your poor performance you must attempt {{_currentQuizBankFeedback._items}} questions from this learning outcome in the final assessment"
+                            },
+                            {
+                                "_forFinalMark": "pass",
+                                "_itemsAsPercent": 50,
+                                "_items": 1,
+                                "title": "Quiz Bank Feedback: Adjustment",
+                                "body": "Quiz Bank Feedback: Due to your excellent performance you must attempt 1 questions from this learning outcome in the final assessment"
+                            },
+                            {
+                                "_forFinalMark": "all",
+                                "_itemsAsPercent": 0,
+                                "_items": 0,
+                                "title": "Quiz Bank Feedback: Adjustment",
+                                "body": "Due to your excellent performance you will not need to attempt any questions from this learning outcome in the final assessment"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "_assessmentId": "knowledgeQuestions",
+                    "_scoreToPassAsPercent": 100,
+                    "_results": {
+                        "_size": "full",
+                        "_order": 1,
+                        "title": "Knowledge Questions",
+                        "body": "This is a section for Knowledge questions",
+                        "_chart": {
+                            "_type": "bar",
+                            "_size": "medium"
+                        }
+                    },
+                    "_marking": [
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 0,
+                                "_max": 49
+                            },
+                            "_mark": "fail",
+                            "displayMark": "fail"
+                        },
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 50,
+                                "_max": 100
+                            },
+                            "_mark": "pass",
+                            "displayMark": "pass"
+                        }
+                    ],
+                    "_feedback": [
+                        {
+                            "_forFinalMark": "fail",
+                            "title": "Final Marking Feedback: Fail",
+                            "body": "Final Marking Feedback: Oh dear!"
+                        },
+                        {
+                            "_forFinalMark": "pass",
+                            "title": "Final Marking Feedback: Pass",
+                            "body": "Final Marking Feedback: Well done!"
+                        }
+                    ]
+                },
+                {
+                    "_assessmentId": "a40assessment",
+                    "_scoreToPassAsPercent": 100,
+                    "_results": {
+                        "_size": "half",
+                        "_order": 2,
+                        "title": "Knowledge Question c-75",
+                        "body": "This is a section for Knowledge question c-75 and some associated information on this topic",
+                        "_chart": {
+                            "_type": "tick"
+                        }
+                    },
+                    "_marking": [
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 0,
+                                "_max": 49
+                            },
+                            "_mark": "fail",
+                            "displayMark": "fail"
+                        },
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 50,
+                                "_max": 100
+                            },
+                            "_mark": "pass",
+                            "displayMark": "pass"
+                        }
+                    ],
+                    "_feedback": [
+                        {
+                            "_forFinalMark": "fail",
+                            "title": "Final Marking Feedback: Fail",
+                            "body": "Final Marking Feedback: Oh dear!"
+                        },
+                        {
+                            "_forFinalMark": "pass",
+                            "title": "Final Marking Feedback: Pass",
+                            "body": "Final Marking Feedback: Well done!"
+                        }
+                    ]
+                },
+                {
+                    "_assessmentId": "a50assessment",
+                    "_scoreToPassAsPercent": 100,
+                    "_results": {
+                        "_size": "half",
+                        "_order": 3,
+                        "title": "Knowledge Question c-85",
+                        "body": "This is a section for Knowledge question c-85 and some associated information on this topic",
+                        "_chart": {
+                            "_type": "tick"
+                        }
+                    },
+                    "_marking": [
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 0,
+                                "_max": 49
+                            },
+                            "_mark": "fail",
+                            "displayMark": "fail"
+                        },
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 50,
+                                "_max": 100
+                            },
+                            "_mark": "pass",
+                            "displayMark": "pass"
+                        }
+                    ],
+                    "_feedback": [
+                        {
+                            "_forFinalMark": "fail",
+                            "title": "Final Marking Feedback: Fail",
+                            "body": "Final Marking Feedback: Oh dear!"
+                        },
+                        {
+                            "_forFinalMark": "pass",
+                            "title": "Final Marking Feedback: Pass",
+                            "body": "Final Marking Feedback: Well done!"
+                        }
+                    ]
+                },
+                {
+                    "_assessmentId": "summativeQuestions",
+                    "_scoreToPassAsPercent": 100,
+                    "_results": {
+                        "_size": "full",
+                        "_order": 4,
+                        "title": "Summative Questions",
+                        "body": "This is a section for summative questions",
+                        "_chart": {
+                            "_type": "bar",
+                            "_size": "medium"
+                        }
+                    },
+                    "_marking": [
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 0,
+                                "_max": 49
+                            },
+                            "_mark": "fail",
+                            "displayMark": "fail"
+                        },
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 50,
+                                "_max": 100
+                            },
+                            "_mark": "pass",
+                            "displayMark": "pass"
+                        }
+                    ],
+                    "_feedback": [
+                        {
+                            "_forFinalMark": "fail",
+                            "title": "Final Marking Feedback: Fail",
+                            "body": "Final Marking Feedback: Oh dear!"
+                        },
+                        {
+                            "_forFinalMark": "pass",
+                            "title": "Final Marking Feedback: Pass",
+                            "body": "Final Marking Feedback: Well done!"
+                        }
+                    ]
+                },
+                {
+                    "_assessmentId": "a41assessment",
+                    "_scoreToPassAsPercent": 100,
+                    "_results": {
+                        "_size": "half",
+                        "_order": 5,
+                        "title": "Summative Question c-77",
+                        "body": "This is a section for summative question c-77 and some associated information on this topic",
+                        "_chart": {
+                            "_type": "tick"
+                        }
+                    },
+                    "_marking": [
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 0,
+                                "_max": 49
+                            },
+                            "_mark": "fail",
+                            "displayMark": "fail"
+                        },
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 50,
+                                "_max": 100
+                            },
+                            "_mark": "pass",
+                            "displayMark": "pass"
+                        }
+                    ],
+                    "_feedback": [
+                        {
+                            "_forFinalMark": "fail",
+                            "title": "Final Marking Feedback: Fail",
+                            "body": "Final Marking Feedback: Oh dear!"
+                        },
+                        {
+                            "_forFinalMark": "pass",
+                            "title": "Final Marking Feedback: Pass",
+                            "body": "Final Marking Feedback: Well done!"
+                        }
+                    ]
+                },
+                {
+                    "_assessmentId": "a51assessment",
+                    "_scoreToPassAsPercent": 100,
+                    "_results": {
+                        "_size": "half",
+                        "_order": 6,
+                        "title": "Summative Question c-87",
+                        "body": "This is a section for summative question c-87 and some associated information on this topic",
+                        "_chart": {
+                            "_type": "tick"
+                        }
+                    },
+                    "_marking": [
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 0,
+                                "_max": 49
+                            },
+                            "_mark": "fail",
+                            "displayMark": "fail"
+                        },
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 50,
+                                "_max": 100
+                            },
+                            "_mark": "pass",
+                            "displayMark": "pass"
+                        }
+                    ],
+                    "_feedback": [
+                        {
+                            "_forFinalMark": "fail",
+                            "title": "Final Marking Feedback: Fail",
+                            "body": "Final Marking Feedback: Oh dear!"
+                        },
+                        {
+                            "_forFinalMark": "pass",
+                            "title": "Final Marking Feedback: Pass",
+                            "body": "Final Marking Feedback: Well done!"
                         }
                     ]
                 }
             ]
-        },
-        "_contribAssessment": {
-            "_weighting": 70,
-            "title": "Main Assessment"
-        },
-        "_userLevels": [
+        }
+    }
+
+
+    //don't forget to include diffuse assessment, bottom navigation, rollay and contrib assessment configurations
+    //to go in course.json
+    "_diffuseAssessment": {
+        "_isEnabled": true,
+        "_assessments": [ 
             {
-                "_id": "beginner",
-                "title": "Beginner",
-                "_boundaries": {
-                    "_pass": 40,
-                    "_merit": 50,
-                    "_distinction": 60
-                }
+                "_id": "total",
+                "_assessments": [ "knowledgeQuestions", "summativeQuestions" ]
             },
             {
-                "_id": "intermediate",
-                "title": "Intermediate",
-                "_boundaries": {
-                    "_pass": 50,
-                    "_merit": 60,
-                    "_distinction": 70
-                }
+                "_id": "bank1",
+                "_assessmentWeight": 1,
+                "_assessments": [ "a40assessment", "a41assessment" ]
             },
             {
-                "_id": "advanced",
-                "title": "Advanced",
-                "_boundaries": {
-                    "_pass": 60,
-                    "_merit": 70,
-                    "_distinction": 80
+                "_id": "bank2",
+                "_assessmentWeight": 1,
+                "_assessments": [ "a50assessment", "a51assessment" ]
+            },
+            {
+                "_id": "knowledgeQuestions",
+                "_assessmentWeight": 1,
+                "_assessments": [ "a40assessment", "a50assessment" ]
+            },
+            {
+                "_id": "summativeQuestions",
+                "_assessmentWeight": 1,
+                "_assessments": [ "a41assessment", "a51assessment" ]
+            },
+            {
+                "_id": "a40assessment",
+                "_assessmentWeight": 1,
+                "_components": [ "c-75" ]
+            },
+            {
+                "_id": "a41assessment",
+                "_assessmentWeight": 1,
+                "_components": [ "c-77" ]
+            },
+            {
+                "_id": "a50assessment",
+                "_assessmentWeight": 1,
+                "_components": [ "c-85" ]
+            },
+            {
+                "_id": "a51assessment",
+                "_assessmentWeight": 1,
+                "_components": [ "c-87" ]
+            }
+        ]
+    },
+    "_pageMenuRouter": {
+        "_topnavigations": [
+            {
+                "_menus": [
+                    {
+                        "_type": "menu"
+                    }
+                ],
+                "text": "",
+                "_dom": "#ulgb-results.icon.icon-bar-graph",  
+                "_events": {
+                    "click small medium large extralarge": "#/ulgb/results"
                 }
             }
         ]
+    },
+    "_rollay": {
+        "_duration": {
+            "show": 200,
+            "hide": 200
+        },
+        "_forceShow" : false
+    },
+    "_bottomnavigation": {
+        "_duration": {
+            "show": 100,
+            "hide": 100
+        },
+        "_showOnMobile": false
+    },
+
+
+    //to got in articles.json
+    {
+        "_id": "a-95",
+        "_parentId": "co-125",
+        "_type": "article",
+        "_classes": "",
+        "title": "a-95",
+        "displayTitle": "",
+        "body": "",
+        "_assessment": {
+            "_isEnabled": true,
+            "_isResetOnRevisit": true,
+            "_canShowFeedback": false,
+            "_startBlockCount": 1,
+            "_endBlockCount": 1,
+            "_assessmentPageLevelProgress": {
+                "_incrementalMarking": true,
+                "_showMarking": true,
+                "_showProgress": true
+            },
+            "_banks": {
+                "_isEnabled": true,
+                "_split": "1,1,1,1,1,1" //important initial state
+            },
+            "_randomisation": {
+                "_isEnabled": false,
+                "_blockCount": 12
+            },
+            "_isPercentageBased": true,
+            "_scoreToPass": 60,
+            "_completionMessage": {
+                "title": "",
+                "_comment": "use [SCORE], [MAXSCORE] and [PERCENT] to display score and percentage",
+                "message": "[FEEDBACK]"
+            },
+            "_bands": [
+                {
+                    "_score": 0,
+                    "feedback": "Band 0–24% feedback.",
+                    "_showAssociatedLearning": false
+                },
+                {
+                    "_score": 25,
+                    "feedback": "Band 25–49% feedback.",
+                    "_showAssociatedLearning": false
+                },
+                {
+                    "_score": 50,
+                    "feedback": "Band 50–74% feedback.",
+                    "_showAssociatedLearning": false
+                },
+                {
+                    "_score": 75,
+                    "feedback": "Band 75–100% feedback.",
+                    "_showAssociatedLearning": false
+                }
+            ]
+        }
     }
