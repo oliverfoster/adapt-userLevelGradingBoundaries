@@ -7,6 +7,6 @@ Using learnerAssistant, diffuseAssessments and contrib-assessment along with use
 
 Extension
 
-Dependencies: [adapt-assessment-learnerAssistant](https://github.com/cgkineo/adapt-assessment-learnerAssistant)
-Dependencies: [adapt-diffuseAssessment](https://github.com/cgkineo/adapt-diffuseAssessment)
-Dependencies: [adapt-rollay](https://github.com/cgkineo/adapt-rollay)
+Dependencies: [adapt-assessment-learnerAssistant](https://github.com/cgkineo/adapt-assessment-learnerAssistant)  
+Dependencies: [adapt-diffuseAssessment](https://github.com/cgkineo/adapt-diffuseAssessment)  
+Dependencies: [adapt-rollay](https://github.com/cgkineo/adapt-rollay)  

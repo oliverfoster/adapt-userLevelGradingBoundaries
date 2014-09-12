@@ -1,0 +1,243 @@
+.ulgb-assessmentItem {
+	float:left;
+	text-align: center;
+
+	border: 1px solid red;
+
+	.feedback {
+		float: left;
+		width: 100%;
+		.feedback-title {
+			background-color: @grey;
+			color: @primary-color;
+		}
+		.feedback-body {
+
+		}
+	}
+
+	.quizbank-feedback {
+		float: left;
+		width: 100%;
+		.quizbank-feedback-title {
+			background-color: @grey;
+			color: @primary-color;
+		}
+		.quizbank-feedback-body {
+
+		}
+	}
+
+	.chart-display {
+		float: left;
+		width: 100%;
+		.chart-display-text-title {
+			background-color: @grey;
+			color: @primary-color;
+		}
+	}
+
+	//DEFAULT CHART STYLING
+	.chart {
+		&.pie, &.donut {
+			.c3-chart-arc path {
+				stroke: black;
+				stroke-width: 3px;
+				stroke-linejoin: round;
+				opacity: 1 !important;
+				cursor: default !important;
+			}
+		}
+		&.bar {
+			.c3-chart-bar path {
+				stroke: black !important;
+				stroke-width: 3px;
+				stroke-linejoin: round;
+			}
+			.c3-axis-x {
+				path {
+					stroke-width: 2px;
+				}
+				.tick {
+					line {
+						display:none;
+					}
+					text {
+						display:none !important;
+					}
+				}
+			}
+		}
+		&.tick {
+			.tick {
+				&.passed {
+					.failed, .incomplete {
+						display: none;
+					}
+					.passed {
+						display:inline;
+					}
+				}
+				&.failed {
+					.incomplete, .passed {
+						display: none;
+					}
+					.failed {
+						display:inline;
+					}
+				}
+				&.incomplete {
+					.passed, .failed {
+						display: none;
+					}
+					.incomplete {
+						display:inline;
+					}
+				}
+			}
+		}
+		&.percentage {
+			.percentage {
+				&.passed, &.failed {
+					.incomplete {
+						display: none;
+					}
+					.complete {
+						display:inline;
+					}
+				}
+				&.incomplete {
+					.incomplete {
+						display: inline;
+					}
+					.complete {
+						display:none;
+					}
+				}
+			}
+		}
+	}
+	
+	//FULL VIEW COMPONENTS
+	&.full {
+		width:98%;
+		margin:auto;
+		@media all and (min-width:(@device-width-medium)) {
+			//DESKTOP VIEW PLACEMENT
+			max-width:832px;
+			min-width:320px;
+			.chart {
+				margin: auto;
+				width: 240px;
+				&.small {
+					width: 120px;
+				}
+				&.medium {
+					width: 180px;
+					margin-right: 24px;
+				}
+				&.large {
+					width: 240px;
+				}
+				float:right;
+				&.bar.medium {
+					margin-right: 3px !important;
+				}
+				&.tick {
+					.tick {
+						padding-top: 20px;
+						text-align: right;
+						padding-right: 38px;
+					}
+				}
+				&.percentage {
+					.percentage {
+						padding-top: 20px;
+					}
+				}
+			}
+			.chart-display-text {
+				width:63%;
+				&.small {
+					width: 81%;
+				}
+				&.medium {
+					width: 73%;
+				}
+				&.large {
+					width: 70%;
+				}
+				padding: 15px 0 0 0px;
+				float:left;
+				text-align:left;
+			}
+			.feedback {
+				text-align:left;
+				padding-top:30px;
+			}
+		}
+		@media all and (max-width:(@device-width-medium - 1px)) {
+			//MOBILE VIEW PLACEMENT
+			max-width: 832px;
+			min-width:320px;
+			.chart {
+				margin: auto;
+				width: 200px;
+			}
+			.chart-display-text {
+
+			}
+		}
+	}
+
+	//HALF VIEW COMPONENTS
+	&.half {
+		//DESKTOP VIEW PLACEMENT 
+		@media all and (min-width:(@device-width-medium)) {
+			max-width:415px;
+			min-width:320px;
+			width:48%;
+			margin:auto;
+			.chart {
+				float:right;
+				margin: auto;
+				margin-right: 43px;
+				width: 120px;
+				&.tick {
+					.tick {
+						padding-top: 20px;
+						text-align: right;
+						padding-right: 38px;
+					}
+				}
+				&.percentage {
+					.percentage {
+						padding-top: 20px;
+					}
+				}
+			}
+			.chart-display-text {
+				float:left;
+				text-align:left;
+				width:57%;
+				padding: 7px 0 0 0px;
+			}
+		}
+		//MOBILE VIEW PLACEMENT 
+		@media all and (max-width:(@device-width-medium - 1px)) {
+			width:98%;
+			margin:auto;
+			max-width: 832px;
+			min-width:320px;
+			.chart {
+				margin: auto;
+				width: 200px;
+			}
+			.chart-display-text {
+
+			}
+		}
+		
+	}
+}
+

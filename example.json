@@ -1,45 +1,90 @@
 // To go in the course.json file
-_userLevelGradingBoundaries: {
-    "_diffuseAssessments": [
-        {
-            "_assessmentId": "knowledgeQuestions",
-            "_weighting": 15
+"_userLevelGradingBoundaries": {
+        "_diffuseAssessment": {
+            "_assessments" : [
+                {
+                    "_assessmentId": "knowledgeQuestions",
+                    "title": "Knowledge Questions",
+                    "_weighting": 15,
+                    "_chart": {
+                        "_type": "donut"
+                    }
+                },
+                {
+                    "_assessmentId": "summativeQuestions",
+                    "title": "Summative Questions",
+                    "_weighting": 15,
+                    "_chart": {
+                        "_type": "donut"
+                    }
+                },
+                {
+                    "_assessmentId": "total",
+                    "title": "Total",
+                    "_weighting": 15,
+                    "_chart": {
+                        "_type": "donut"
+                    },
+                    "_feedback": [
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 0,
+                                "_max": 33
+                            },
+                            "title": "You are on track for a Pass!",
+                            "body": "Pass"
+                        },
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 34,
+                                "_max": 66
+                            },
+                            "title": "You are on track for a Merit!",
+                            "body": "Merit"
+                        },
+                        {
+                            "_forScoreAsPercent": {
+                                "_min": 67,
+                                "_max": 100
+                            },
+                            "title": "You are on track for a Distinction!",
+                            "body": "Distinction"
+                        }
+                    ]
+                }
+            ]
         },
-        {
-            "_assessmentId": "summativeQuestions",
-            "_weighting": 15
-        }
-    ],
-    "_contribAssessment": {
-        "_weighting": 70
-    },
-    "_userLevels": [
-        {
-            "_id": "beginner",
-            "title": "Beginner",
-            "_boundaries": {
-                "_pass": 40,
-                "_merit": 50,
-                "_distinction": 60
-            }
+        "_contribAssessment": {
+            "_weighting": 70,
+            "title": "Main Assessment"
         },
-        {
-            "_id": "intermediate",
-            "title": "Intermediate",
-            "_boundaries": {
-                "_pass": 50,
-                "_merit": 60,
-                "_distinction": 70
+        "_userLevels": [
+            {
+                "_id": "beginner",
+                "title": "Beginner",
+                "_boundaries": {
+                    "_pass": 40,
+                    "_merit": 50,
+                    "_distinction": 60
+                }
+            },
+            {
+                "_id": "intermediate",
+                "title": "Intermediate",
+                "_boundaries": {
+                    "_pass": 50,
+                    "_merit": 60,
+                    "_distinction": 70
+                }
+            },
+            {
+                "_id": "advanced",
+                "title": "Advanced",
+                "_boundaries": {
+                    "_pass": 60,
+                    "_merit": 70,
+                    "_distinction": 80
+                }
             }
-        }
-        {
-            "_id": "advanced",
-            "title": "Advanced",
-            "_boundaries": {
-                "_pass": 60,
-                "_merit": 70,
-                "_distinction": 80
-            }
-        }
-    ]
-}
+        ]
+    }

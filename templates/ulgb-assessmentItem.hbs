@@ -1,0 +1,45 @@
+<div class="ulgb-assessmentItem-inner">
+	
+	
+	<div  class="chart-display">
+		{{#if _results._chart}}
+		<div class="chart {{_results._chart._size}}"></div>
+		{{/if}}
+		<div class="chart-display-text {{_results._chart._size}}">
+		{{#if _results.title}}
+			<h4 class="chart-display-text-title"> 
+			{{_results.title}}
+			</h4>
+		{{/if}}
+		{{#if _results.body}}
+			<div class="chart-display-text-body">
+			{{_results.body}}
+			</div>
+		{{/if}}
+		</div>
+	</div>
+
+	{{#if _currentFeedback}}
+	<div class="feedback">
+		<h4 class="feedback-title"> 
+		{{_currentFeedback.title}}
+		</h4>
+		<div class="feedback-body">
+		{{_currentFeedback.body}}
+		</div>
+	</div>
+	{{/if}}
+
+	
+	{{#if _currentQuizBankFeedback}}
+	<div class="quizbank-feedback">
+		<h4 class="quizbank-feedback-title"> 
+		{{_currentQuizBankFeedback.title}}
+		</h4>
+		<div class="quizbank-feedback-body">
+		{{_currentQuizBankFeedback.body}}
+		</div>
+	</div>
+	{{/if}}
+	
+</div>

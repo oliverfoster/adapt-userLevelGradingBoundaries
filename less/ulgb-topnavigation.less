@@ -1,0 +1,74 @@
+html.user-level-grading-boundaries {
+
+	.page-level-progress-navigation {
+		display: none;
+	}
+
+	@media all and (max-width:(@device-width-medium - 1px)) {
+
+	    .navigation {
+		    .close {
+				float:right;
+				padding: 12px 13px 12px 12px;
+				position:absolute;
+				top:0;
+				right:0;
+				cursor: pointer;
+				.no-touch &:hover {
+					color: @guided-bar-icon-hover-color;
+					.icon {
+						 color: @guided-bar-icon-hover-color;
+					}
+				}
+			}
+		}
+			
+	}
+
+	.navigation {
+		background-color: @guided-primary-color;
+		border-bottom: @guided-bar-border;
+
+		.icon {
+			&:not(.ulgb-item) {
+				display:none;
+			}
+			&.ulgb-item {
+				display: inline-block;
+			}
+		}
+
+
+		.ulgb-tutor-icon {
+			.title-bar {
+
+				position: relative;
+				text-decoration: none;
+				margin: auto;
+				cursor: pointer;
+				left: -16px;
+				text-align: center;
+				width: 400px;
+				color: @guided-bar-button-text-color;
+				.no-touch &:hover {
+					color: @guided-bar-icon-hover-color;
+					.icon {
+						 color: @guided-bar-icon-hover-color;
+					}
+				}
+				.icon {
+					color: @guided-bar-icon-color;
+		            .no-touch &:hover {
+		                color: @guided-bar-icon-hover-color;
+		            }
+				}
+				span.title {
+					display: inline-block;
+					top: -4px;
+					position: relative;
+				}
+			}
+		}
+	}
+
+}
