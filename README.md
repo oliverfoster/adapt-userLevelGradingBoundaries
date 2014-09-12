@@ -22,13 +22,34 @@ Optional (for results screen):
 [adapt-bottomnavigation](https://github.com/cgkineo/adapt-rollay)  
 
 ###Use
-```
 Navigate to #/ulgb/results or trigger event Adapt.trigger("userLevelGradingBoundaries:resultsOpen") to open results panel.
-Use optional dependencies to show results panel.
+Use optional dependencies to show results panel.  
+  
+Or use just to change contrib-assessment banks based upon diffuseAssessment outcome. No results panel is necessary.  
 
-Or use just to change contrib-assessment banks based upon diffuseAssessment outcome. No results panel is necessary.
+###Public Interface
+```
+Adapt.userLevelGradingBoundaries.model 
+Adapt.userLevelGradingBoundaries.navigateToOther(section, replace) //navigates to #/ulgb/section
+Adapt.userLevelGradingBoundaries.navigateToPrevious(replace) //back button equivalent
+Adapt.userLevelGradingBoundaries.processMarking() // setup model with current marking outcomes
+Adapt.userLevelGradingBoundaries.processFeedback() // setup model with current feedback outcomes
+Adapt.userLevelGradingBoundaries.processQuizBanks() // setup contrib-assessment with current quizbank outcomes
 
 ```
+
+##Events
+
+```
+Triggers:  
+userLevelGradingBoundaries:initialized
+
+Listens To:
+userLevelGradingBoundaries:resultsOpen
+userLevelGradingBoundaries:resultsClose
+
+```
+
 
 ###Configuration
 ```
