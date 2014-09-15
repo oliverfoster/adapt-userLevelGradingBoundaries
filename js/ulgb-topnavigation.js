@@ -1,8 +1,9 @@
 /*
- * adapt-contrib-pageLevelProgress
- * License - https://github.com/adaptlearning/adapt_framework/blob/master/LICENSE
- * Maintainers - Daryl Hedley <darylhedley@hotmail.com>, Himanshu Rajotia <himanshu.rajotia@credipoint.com>
- */
+* adapt-userLevelGradingBoundaries
+* License - http://github.com/adaptlearning/adapt_framework/LICENSE
+* Maintainers - Oliver Foster <oliver.foster@kineo.com>
+*/
+
 define(function(require) {
 
 	var Adapt = require('coreJS/adapt');
