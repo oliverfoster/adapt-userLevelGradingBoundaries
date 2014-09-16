@@ -14,6 +14,8 @@ define(function(require) {
 	var DATopNavigation = require('extensions/adapt-userLevelGradingBoundaries/js/ulgb-topnavigation');
 	var HBS = require('extensions/adapt-userLevelGradingBoundaries/js/handlebars-v1.3.0');
 
+	var _isEnabled = false;
+
 	var userLevelGradingBoundaries = new (Backbone.View.extend({
 		model: new Backbone.Model({
 			_isResultsShown: false,
@@ -185,16 +187,19 @@ define(function(require) {
 	_views['topnavigation-view'] = new DATopNavigation();
 
 	Adapt.once("diffuseAssessment:initialized", function () {
+		if (!_isEnabled) return;
 		_views['results-view'].model.set("_diffuseAssessment", Adapt.diffuseAssessment.model);
 	});
 
 	Adapt.once("userLevelGradingBoundaries:initialized", function() {
+		if (!_isEnabled) return;
 		_views['results-view'].model.set("_userLevelGradingBoundaries", Adapt.userLevelGradingBoundaries.model);
 		_views['bottomnavigation-view'].model.set("_userLevelGradingBoundaries", Adapt.userLevelGradingBoundaries.model);
 		_views['topnavigation-view'].model.set("_userLevelGradingBoundaries", Adapt.userLevelGradingBoundaries.model);
 	});
 
 	Adapt.on("userLevelGradingBoundaries:resultsOpen", function(internal) {
+		if (!_isEnabled) return;
 		if (!internal) userLevelGradingBoundaries.navigateToOther("results");
 
 		$("html").addClass("user-level-grading-boundaries");
@@ -217,6 +222,7 @@ define(function(require) {
 	});
 
 	Adapt.on("userLevelGradingBoundaries:resultsClose", function(internal) {
+		if (!_isEnabled) return;
 		if (!internal) userLevelGradingBoundaries.navigateToPrevious(false);
 		$("html").removeClass("user-level-grading-boundaries");
 		_views['topnavigation-view'].$el.remove();
@@ -226,12 +232,14 @@ define(function(require) {
 	});
 
 	Adapt.on("router:menu router:page", function() {
+		if (!_isEnabled) return;
 		if (Adapt.userLevelGradingBoundaries.model.get("_isResultsShown") === true) {
 			Adapt.trigger("userLevelGradingBoundaries:resultsClose", true);
 		}
 	});
 
 	Adapt.on("router:plugin:ulgb", function(pluginName, location, action) {
+		if (!_isEnabled) return;
 		switch (location) {
 		case "results":
 			Adapt.trigger("userLevelGradingBoundaries:resultsOpen", true);
@@ -242,7 +250,10 @@ define(function(require) {
 	Adapt.once("app:dataReady", function() {
 
 		var model = Adapt.course.get("_userLevelGradingBoundaries");
-		
+		if (model === undefined || model._isEnabled === false) return;
+
+		_isEnabled = true;
+
 		if (model._diffuseAssessment !== undefined) {
 			var assessmentById = {};
 			_.each(model._diffuseAssessment._assessments, function(assess) {
@@ -282,6 +293,7 @@ define(function(require) {
 	});
 
 	Adapt.on("diffuseAssessment:recalculated", function() {
+		if (!_isEnabled) return;
 		Adapt.userLevelGradingBoundaries.processMarking();
 		Adapt.userLevelGradingBoundaries.processQuizBanks();
 	});
