@@ -3,7 +3,7 @@ adapt-userLevelGradingBoundaries
 
 Extension  
 
-Using learnerAssistant, diffuseAssessments and contrib-assessment along with rollay and bottomnavigation to provide a course progress screen.  
+Using diffuseAssessments and contrib-assessment along with rollay and bottomnavigation to provide a course progress screen.  
 
 ####Requirements
 1. Show feedback for diffuseAssessments (feedback based upon predicted/highest results or current result) as results panel  
@@ -12,7 +12,6 @@ Using learnerAssistant, diffuseAssessments and contrib-assessment along with rol
 ###Dependencies
 
 Required:   
-[adapt-assessment-learnerAssistant](https://github.com/cgkineo/adapt-assessment-learnerAssistant)  
 [adapt-diffuseAssessment](https://github.com/cgkineo/adapt-diffuseAssessment)  
 [adapt-contrib-assessment](https://github.com/cgkineo/adapt-contrib-assessment)  
 
