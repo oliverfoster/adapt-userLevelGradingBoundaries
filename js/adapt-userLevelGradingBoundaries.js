@@ -53,6 +53,18 @@ define(function(require) {
 				            }
 				            if (component._interactions == 1) countRightFirstTime++;
 				        });
+				        _.each(this._componentModels, function(component) {
+							if (component._isCorrect !== true || component._isComplete !== true ) return;							
+				            for (var f = 0; f < _points.length; f++) {
+				            	var item = _points[f];
+				            	if (item._forAttemptsToCorrect !== undefined && component._interactions >= item._forAttemptsToCorrect._min && component._interactions <= item._forAttemptsToCorrect._max) {
+				            		currentPoints = currentPoints + item._points;
+				            		break;
+				            	}
+
+				            }
+				            if (component._interactions == 1) countRightFirstTime++;
+				        });
 
 						var possiblePoints = assess._completeDescendentComponents * maxPoints;
 				        var averagePoints = (currentPoints === 0 ? 0 : (maxPoints / possiblePoints) * currentPoints);
