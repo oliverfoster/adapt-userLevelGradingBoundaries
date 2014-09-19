@@ -343,8 +343,8 @@ questionsAttempted			feedback with chart showing the number of questions attempt
 averagePoints				feedback with chart showing the number of average points attained per question
 rightFirstTime 				feedback with chart shoing the number of questions that were correct on first attempt
 predictedScore				feedback with chart showing marking boundaries and predicted score (current ratio)
-forecastForFinalAssessment 	feedback with chart showing the number of bank questions expected in the final assessment
-pageLevelView 				feedback with chart showing the number of bank questions expected in the final assessment
+forecastForFinalAssessment 		feedback with chart showing the number of bank questions expected in the final assessment
+pageLevelView 				feedback with chart showing the number of questions answered
 ````
 
 ```
