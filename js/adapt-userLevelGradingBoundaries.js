@@ -53,7 +53,7 @@ define(function(require) {
 				            }
 				            if (component._interactions == 1) countRightFirstTime++;
 				        });
-				        _.each(this._componentModels, function(component) {
+				        _.each(assess._componentModels, function(component) {
 							if (component._isCorrect !== true || component._isComplete !== true ) return;							
 				            for (var f = 0; f < _points.length; f++) {
 				            	var item = _points[f];
@@ -287,6 +287,28 @@ define(function(require) {
 		_views['results-view'].model.set("_userLevelGradingBoundaries", Adapt.userLevelGradingBoundaries.model);
 		_views['bottomnavigation-view'].model.set("_userLevelGradingBoundaries", Adapt.userLevelGradingBoundaries.model);
 		_views['topnavigation-view'].model.set("_userLevelGradingBoundaries", Adapt.userLevelGradingBoundaries.model);
+	});
+
+	Adapt.on("userLevelGradingBoundaries:tutorOpen", function() {
+		var _notify = undefined;
+
+		_notify = userLevelGradingBoundaries.model.get("_tutorButton");
+
+		if (_notify !== undefined) {
+			if (! _notify._show) return;
+			
+			var alertObject = {
+			    title: _notify.title,
+			    body: _notify.body,
+			    confirmText: _notify.button,
+			    _callbackEvent: "",
+			    _showIcon: false
+			};
+
+			Adapt.trigger('notify:alert', alertObject);
+
+		}
+
 	});
 
 	Adapt.on("userLevelGradingBoundaries:resultsOpen", function(internal) {

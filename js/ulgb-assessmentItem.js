@@ -33,7 +33,7 @@ define(function(require) {
 			var assessment = Adapt.diffuseAssessment.getAssessmentById(data._assessmentId);
 
 			params = $.extend(true, {}, data);
-			params = _.extend(params, assessment);
+			params = _.extend({}, assessment, params);
 
 			_.each(params._results._sections, function (section) {
 				section["_is" + section._type.substr(0,1).toUpperCase() + section._type.substr(1) ] = true;
@@ -114,8 +114,8 @@ define(function(require) {
 					settings.columns.push(['_bankQuestions', thisHandle.data._maxBankQuestions - thisHandle.data._countBankQuestions]);
 					break;
 				case "pageLevelView":
-					settings.columns.push(['_maxBankQuestions', thisHandle.data._maxBankQuestions]);
-					settings.columns.push(['_bankQuestions', thisHandle.data._countBankQuestions]);
+					settings.columns.push(['_descendentComponents', thisHandle.data._components.length]);
+					settings.columns.push(['_score', thisHandle.data._score]);
 					break;
 				default:
 					throw "Section type not supported: " + section;
