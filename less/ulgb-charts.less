@@ -1,0 +1,32 @@
+/*
+* adapt-userLevelGradingBoundaries
+* License - http://github.com/adaptlearning/adapt_framework/LICENSE
+* Maintainers - Oliver Foster <oliver.foster@kineo.com>
+*/
+
+.ulgb-dashboard {
+	.ulgb-assessmentItem {
+		.chart {
+			opacity: 0;
+			&.pie, &.donut {
+				.c3-chart-arc path {
+					stroke-width: 0px;
+				}
+				//background-colors come from course.json
+			}
+			&.gradedbar {
+				.bar-border {
+					border: 0px solid black;
+					border-radius: 0px;
+					
+				}
+				.boundary-border {
+					.boundary {
+						border-left: 1px solid lightgray;
+					}
+				}
+				//background-colors come from course.json
+			}
+		}
+	}
+}

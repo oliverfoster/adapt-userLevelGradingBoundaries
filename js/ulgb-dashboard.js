@@ -22,23 +22,23 @@ define(function(require) {
 		render: function() {
 			var template = Handlebars.templates['ulgb-dashboard'];
 			var data = {};
-			if (this.model.get("_diffuseAssessment") !== undefined) data._diffuseAssessment = this.model.get("_diffuseAssessment").toJSON();
+			if (this.model.get("_assessments") !== undefined) data._assessments = this.model.get("_assessments").toJSON();
 			
 			if (this.model.get("_userLevelGradingBoundaries") !== undefined) {
 				data._userLevelGradingBoundaries = this.model.get("_userLevelGradingBoundaries").toJSON();
 			}
 
 			this.$el.html(template( data ));
-			_.defer(_.bind(this.postRender, this));
+			
 		},
 		postRender: function () {
 			var _userLevelGradingBoundaries = this.model.get("_userLevelGradingBoundaries").toJSON();
 			var children = [];
 			var thisHandle = this;
-			_userLevelGradingBoundaries._diffuseAssessment._assessments.sort(function(a,b) {
+			_userLevelGradingBoundaries._assessments.sort(function(a,b) {
 				return a._order -b._order;
 			})
-			_.each(_userLevelGradingBoundaries._diffuseAssessment._assessments, function(assess) {
+			_.each(_userLevelGradingBoundaries._assessments, function(assess) {
 				if (assess._results === undefined) return;
 				var assessment = Adapt.diffuseAssessment.getAssessmentById(assess._id);
 				var ai = new assessmentItem();
@@ -51,6 +51,8 @@ define(function(require) {
 		},
 		setReadyStatus: function() {
 			this.model.set("_isReady");
+			_.defer(_.bind(this.postRender, this));
+
 		},
 		onClose: function() {
 			Adapt.rollay.hide();

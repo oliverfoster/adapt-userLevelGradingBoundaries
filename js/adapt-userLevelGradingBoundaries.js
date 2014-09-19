@@ -29,22 +29,63 @@ define(function(require) {
 			Adapt.router.set("_canNavigate",true);
 			Router.navigateToPreviousRoute();
 		},
+		processPoints: function() {
+			var _assessments = userLevelGradingBoundaries.model.get("_assessments");
+			if (_assessments !== undefined) {
+				_.each(_assessments, function(assessment) {
+					var assess = Adapt.diffuseAssessment.getAssessmentById(assessment._assessmentId);
+
+					var _points = assessment['_points'];
+					if (_points instanceof Array) {
+						var maxPoints = _.max(_points, function(item) { return item._points; })._points;
+						var currentPoints = 0;
+						var countRightFirstTime = 0;
+
+						_.each(assess._descendentComponentModels, function(component) {
+							if (component._isCorrect !== true || component._isComplete !== true ) return;							
+				            for (var f = 0; f < _points.length; f++) {
+				            	var item = _points[f];
+				            	if (item._forAttemptsToCorrect !== undefined && component._interactions >= item._forAttemptsToCorrect._min && component._interactions <= item._forAttemptsToCorrect._max) {
+				            		currentPoints = currentPoints + item._points;
+				            		break;
+				            	}
+
+				            }
+				            if (component._interactions == 1) countRightFirstTime++;
+				        });
+
+						var possiblePoints = assess._completeDescendentComponents * maxPoints;
+				        var averagePoints = (currentPoints === 0 ? 0 : (maxPoints / possiblePoints) * currentPoints);
+
+				        assessment._maxPoints = maxPoints;
+				        assessment._currentPoints = currentPoints;
+				        assessment._possiblePoints = possiblePoints;
+				        assessment._averagePoints = Math.round(averagePoints*1000) / 1000;
+				        assessment._countRightFirstTime = countRightFirstTime;
+				        assessment._averagePointsAsPercent = Math.round((100/maxPoints) * averagePoints);
+				        assessment._countRightFirstTimeAsPercent = Math.round(assess._completeDescendentComponents === 0 ? 0 : (100/assess._completeDescendentComponents) * assessment._countRightFirstTime);
+				    }
+
+			        
+		        });
+			}
+		},
 		processMarking: function() {
-			var _diffuseAssessment = userLevelGradingBoundaries.model.get("_diffuseAssessment");
-			if (_diffuseAssessment !== undefined) {
-				_.each(_diffuseAssessment._assessments, function(assessment) {
+			var _assessments = userLevelGradingBoundaries.model.get("_assessments");
+			if (_assessments !== undefined) {
+				_.each(_assessments, function(assessment) {
 					var assess = Adapt.diffuseAssessment.getAssessmentById(assessment._assessmentId);
 					
 					assessment._currentMark = undefined;
 		            assessment._projectedMark = undefined;
 		            assessment._highestMark = undefined;
-		            assessment._currentScoreRatio = assess._score / assess._completed;
+		            assessment._currentScoreRatio = Math.round((assess._score === 0 ? 0 : assess._score / assess._completed) * 1000) / 1000;
 		            assessment._remainingScore = assess._possibleScore - assess._completed;
 		            assessment._isComplete = (assessment._remainingScore === 0);
 		            assessment._projectedScore = assess._score + (isNaN(assessment._currentScoreRatio) ? 0 : assessment._remainingScore * assessment._currentScoreRatio );
 		            assessment._highestScore = assess._score + assessment._remainingScore;
-		            assessment._projectedScoreAsPercent = (100 / assess._possibleScore) * assessment._projectedScore;
-		            assessment._highestScoreAsPercent = (100 / assess._possibleScore) * assessment._highestScore;
+		            assessment._projectedScoreAsPercent = Math.round((100 / assess._possibleScore) * assessment._projectedScore);
+		            assessment._highestScoreAsPercent = Math.round((100 / assess._possibleScore) * assessment._highestScore);
 		            if (assessment._scoreToPassAsPercent !== undefined) {
 		            	assessment._isPassed = assess._scoreAsPercent >= assessment._scoreToPassAsPercent;
 		            } else if (assessment._scoreToPass !== undefined) {
@@ -72,9 +113,9 @@ define(function(require) {
 			}
 		},
 		processFeedback: function() {
-			var _diffuseAssessment = userLevelGradingBoundaries.model.get("_diffuseAssessment");
-			if (_diffuseAssessment !== undefined) {
-				_.each(_diffuseAssessment._assessments, function(assessment) {
+			var _assessments = userLevelGradingBoundaries.model.get("_assessments");
+			if (_assessments !== undefined) {
+				_.each(_assessments, function(assessment) {
 
 					var _marking = assessment['_marking'];
 		            var _feedback = assessment['_feedback'];
@@ -84,7 +125,10 @@ define(function(require) {
 		            if (_feedback instanceof Array && _marking !== undefined) {
 			            for (var f = 0; f < _feedback.length; f++) {
 			            	var item = _feedback[f];
-			            	if (!assessment._isComplete && item._forProjectedMark !== undefined && item._forHighestMark !== undefined &&  item._forProjectedMark.split(" ").indexOf(assessment._projectedMark._mark) > -1 && item._forHighestMark.split(" ").indexOf(assessment._highestMark._mark) > -1) {
+			            	if (item._forCurrentMark !== undefined && assessment._currentMark !== undefined && item._forCurrentMark.split(" ").indexOf(assessment._currentMark._mark) > -1 ) {
+			            		currentFeedback = item;
+			            		break;
+			            	} else if (!assessment._isComplete && item._forProjectedMark !== undefined && item._forHighestMark !== undefined &&  assessment._highestMark !== undefined && assessment._projectedMark !== undefined && item._forProjectedMark.split(" ").indexOf(assessment._projectedMark._mark) > -1 && item._forHighestMark.split(" ").indexOf(assessment._highestMark._mark) > -1) {
 			            		currentFeedback = item;
 			            		break;
 			            	} else if (assessment._isComplete && item._forFinalMark !== undefined && assessment._currentMark !== undefined && item._forFinalMark.split(" ").indexOf(assessment._currentMark._mark) > -1) {
@@ -97,18 +141,26 @@ define(function(require) {
 			        }
 
 			        if (currentFeedback !== undefined) {
+			        	assessment._currentFeedback = currentFeedback;
+
+			        	var assess = Adapt.diffuseAssessment.getAssessmentById(assessment._assessmentId);
+						var params = $.extend(true, {}, assessment);
+						params = _.extend(params, assess);
+
 			            var fb = {
-			            	title: HBS.compile(currentFeedback.title)(assessment),
-			            	body: HBS.compile(currentFeedback.body)(assessment)
+			            	title: HBS.compile(currentFeedback.title)(params),
+			            	body: HBS.compile(currentFeedback.body)(params)
 			            };
 			            
 			            assessment._currentFeedback = fb;
+			        } else {
+			        	console.log("No feedback specified for assessment: " + assessment._assessmentId + ", assessment._isComplete: "+ (assessment._isComplete ? "yes (using finalMark), " : "no (using projectedMark), ") + " currentMark:" + assessment._currentMark._mark + ", projectedMark:" + assessment._projectedMark._mark + ", highestMark:" + assessment._highestMark._mark);
 			        }
 		        });
 			}
 		},
 		processQuizBanks: function() {
-			var _diffuseAssessment = userLevelGradingBoundaries.model.get("_diffuseAssessment");
+			var _assessments = userLevelGradingBoundaries.model.get("_assessments");
 			var _articleAssessment = userLevelGradingBoundaries.model.get("_articleAssessment");
 
 
@@ -121,8 +173,12 @@ define(function(require) {
 			var _quizBankComponentsByQuizBank = _allQuizBankComponents.groupBy("_quizBankID");
 			
 
-			if (_diffuseAssessment === undefined) return;
-			_.each(_diffuseAssessment._assessments, function(assessment) {
+			/*for (var i = 0; i < _allQuizBankComponents; i++) {
+				_allQuizBankComponents.set("_isComplete", false);
+			}*/
+
+			if (_assessments === undefined) return;
+			_.each(_assessments, function(assessment) {
 				
 				var _marking = assessment['_marking'];
 	            var _quizBank = assessment['_quizBank'];
@@ -132,7 +188,13 @@ define(function(require) {
 				if (_quizBank !== undefined && _marking !== undefined) {
 		            for (var f = 0; f < _quizBank._feedback.length; f++) {
 		            	var item = _quizBank._feedback[f];
-		            	if (assessment._isComplete && item._forFinalMark !== undefined && assessment._currentMark !== undefined && item._forFinalMark.split(" ").indexOf(assessment._currentMark._mark) > -1) {
+		            	if (item._forCurrentMark !== undefined && assessment._currentMark !== undefined && item._forCurrentMark.split(" ").indexOf(assessment._currentMark._mark) > -1 ) {
+		            		currentQuizBankFeedback = item;
+		            		break;
+			            } else if (!assessment._isComplete && item._forProjectedMark !== undefined && item._forHighestMark !== undefined &&  assessment._highestMark !== undefined && assessment._projectedMark !== undefined && item._forProjectedMark.split(" ").indexOf(assessment._projectedMark._mark) > -1 && item._forHighestMark.split(" ").indexOf(assessment._highestMark._mark) > -1) {
+		            		currentQuizBankFeedback = item;
+		            		break;
+			            } else if (assessment._isComplete && item._forFinalMark !== undefined && assessment._currentMark !== undefined && item._forFinalMark.split(" ").indexOf(assessment._currentMark._mark) > -1) {
 		            		currentQuizBankFeedback = item;
 		            		break;
 		            	}
@@ -140,11 +202,14 @@ define(function(require) {
 		        }
 
 		        if (currentQuizBankFeedback !== undefined) {
-		        	assessment._currentQuizBankFeedback = _.extend({}, currentQuizBankFeedback);
-	            	assessment._currentQuizBankFeedback.title = HBS.compile(currentQuizBankFeedback.title)(assessment);
-	            	assessment._currentQuizBankFeedback.body = HBS.compile(currentQuizBankFeedback.body)(assessment);
+					assessment._currentQuizBankFeedback = $.extend(true, {}, currentQuizBankFeedback);
 
-	            	console.log(assessment._currentQuizBankFeedback);
+		        	var assess = Adapt.diffuseAssessment.getAssessmentById(assessment._assessmentId);
+					var params = $.extend(true, {}, assessment);
+					params = _.extend(params, assess);
+
+	            	assessment._currentQuizBankFeedback.title = HBS.compile(currentQuizBankFeedback.title)(params);
+	            	assessment._currentQuizBankFeedback.body = HBS.compile(currentQuizBankFeedback.body)(params);
 
 	            	var _quizBankID = assessment._quizBank._quizBankID
 	            	var _quizBankComponents = _allQuizBankComponents.where({ _quizBankID: _quizBankID});
@@ -165,15 +230,29 @@ define(function(require) {
 						return;
 					}
 
-					var splits = _assessment._banks._split.split(",");
+					var bankQuestions = _assessment._banks._split.split(",");
 
-					splits[_quizBankID - 1] = currentQuizBankFeedback._items;
+					bankQuestions[_quizBankID - 1] = currentQuizBankFeedback._items;
 
-					_assessment._banks._split = splits.join(",");
+					_assessment._banks._split = bankQuestions.join(",");
 
-				}
+				} else {
+		        	console.log("No quizbankfeedback specified for assessment: " + assessment._assessmentId + ", assessment._isComplete: "+ (assessment._isComplete ? "yes (using finalMark), " : "no (using projectedMark), ") + " currentMark:" + assessment._currentMark._mark + ", projectedMark:" + assessment._projectedMark._mark + ", highestMark:" + assessment._highestMark._mark);
+		        }
+
+				var bankQuestions = _assessment._banks._split.split(",");
+				if (assessment._quizBank) {
+	            	assessment._countBankQuestions = parseInt(bankQuestions[assessment._quizBank._quizBankID - 1]);
+	            } else {
+		            assessment._countBankQuestions = _.reduce(bankQuestions, function (rtn, item) { return rtn+parseInt(item); }, 0);;
+		        }
+		        assessment._countBankQuestionsAsPercent = (100/assessment._maxBankQuestions) * assessment._countBankQuestions;
 
 	        });
+
+	
+			//var aca = require('extensions/adapt-contrib-assessment/js/adapt-contrib-assessment');
+			//aca.initQuizData(_articleAssessment.model);
 
 			//Reset article assessment model
 			_articleAssessment.model.getChildren().models = _articleAssessment.model.get("assessmentModel").setQuizData();
@@ -204,8 +283,10 @@ define(function(require) {
 
 		$("html").addClass("user-level-grading-boundaries");
 
+		Adapt.userLevelGradingBoundaries.processPoints();
 		Adapt.userLevelGradingBoundaries.processMarking();
 		Adapt.userLevelGradingBoundaries.processFeedback();
+		Adapt.userLevelGradingBoundaries.processQuizBanks();
 		Adapt.userLevelGradingBoundaries.model.set("_isResultsShown", true);
 
 		$(".navigation-inner").append( _views['topnavigation-view'].$el );
@@ -254,48 +335,90 @@ define(function(require) {
 
 		_isEnabled = true;
 
-		if (model._diffuseAssessment !== undefined) {
-			var assessmentById = {};
-			_.each(model._diffuseAssessment._assessments, function(assess) {
-				assessmentById[assess._assessmentId] = assess;
+		if (model._assessments !== undefined) {
+
+			var countBankQuestions = 0;
+			var maxBankQuestions = 0;
+			var bankQuestions = 0;
+			//find assessment article and get banks information 
+			var assesmentArticleModels = Adapt.articles.filter(function (item) { 
+				return item.get("_assessment") !== undefined;
 			});
-			model._diffuseAssessment._assessmentsById = assessmentById;
+			if (assesmentArticleModels.length > 0) {
+				var quizBankComponents = new Backbone.Collection();
+				Adapt.blocks.each(function(block) {
+					var _quizBankID = block.get("_quizBankID");
+					if (_quizBankID !== undefined) {
+						var questionComponents = block.get("_children").where({ _isQuestionType: true});
+						_.each(questionComponents, function(component) {
+							component.set("_quizBankID", _quizBankID);
+						})
+						quizBankComponents.add(questionComponents);
+					}
+				});
+				var _articleAssessment = {
+					model: assesmentArticleModels[0],
+					_quizBankComponents: quizBankComponents
+				};
+				bankQuestions = _articleAssessment.model.get("_assessment")._banks._split.split(",");
+				countBankQuestions = _.reduce(bankQuestions, function (rtn, item) { return rtn+parseInt(item); }, 0);
+				maxBankQuestions = countBankQuestions;
+				userLevelGradingBoundaries.model.set("_articleAssessment", _articleAssessment );
+
+			} else {
+				console.error("No Article Assessment in course!");
+			}
+
+
+			var assessmentById = {};
+			_.each(model._assessments, function(assess) {
+				assessmentById[assess._assessmentId] = assess;
+				assess._countRightFirstTime = 0;
+				assess._countRightFirstTimeAsPercent = 0;
+				assess._currentPoints = 0;
+				assess._maxPoints = 0;
+		        assess._possiblePoints = 0;
+		        assess._averagePoints = 0;
+		        assess._averagePointsAsPercent = 0;
+				assess._currentQuizBankFeedback = undefined;
+				assess._currentFeedback = undefined;
+				assess._currentPoints = undefined;
+				assess._currentMark = undefined;
+	            assess._projectedMark = undefined;
+	            assess._highestMark = undefined;
+	            assess._currentScoreRatio = 0;
+	            assess._remainingScore = 0;
+	            assess._isComplete = false;
+	            assess._projectedScore = 0;
+	            assess._highestScore = 0;
+	            assess._projectedScoreAsPercent = 0;
+	            assess._highestScoreAsPercent = 100;
+	            assess._isPassed = false;
+	            if (assess._quizBank) {
+	            	assess._countBankQuestions = parseInt(bankQuestions[assess._quizBank._quizBankID - 1]);
+	            	assess._maxBankQuestions =  parseInt(bankQuestions[assess._quizBank._quizBankID - 1]);
+	            } else {
+		            assess._countBankQuestions = countBankQuestions;
+		            assess._maxBankQuestions = maxBankQuestions;
+		        }
+		        assess._countBankQuestionsAsPercent = Math.round((100/assess._maxBankQuestions) * assess._countBankQuestions);
+			});
+			model._assessmentsById = assessmentById;
 		}
 
 		userLevelGradingBoundaries.model.set(model);
 
-		//find assessment article and get banks information 
-		var assesmentArticleModels = Adapt.articles.filter(function (item) { 
-			return item.get("_assessment") !== undefined;
-		});
-		if (assesmentArticleModels.length > 0) {
-			var quizBankComponents = new Backbone.Collection();
-			Adapt.blocks.each(function(block) {
-				var _quizBankID = block.get("_quizBankID");
-				if (_quizBankID !== undefined) {
-					var questionComponents = block.get("_children").where({ _isQuestionType: true});
-					_.each(questionComponents, function(component) {
-						component.set("_quizBankID", _quizBankID);
-					})
-					quizBankComponents.add(questionComponents);
-				}
-			});
-			var _articleAssessment = {
-				model: assesmentArticleModels[0],
-				_quizBankComponents: quizBankComponents
-			};
-			userLevelGradingBoundaries.model.set("_articleAssessment", _articleAssessment );
-		} else {
-			console.error("No Article Assessment in course!");
-		}
+		
 		
 		Adapt.trigger("userLevelGradingBoundaries:initialized");
 	});
 
 	Adapt.on("diffuseAssessment:recalculated", function() {
 		if (!_isEnabled) return;
+		Adapt.userLevelGradingBoundaries.processPoints();
 		Adapt.userLevelGradingBoundaries.processMarking();
 		Adapt.userLevelGradingBoundaries.processQuizBanks();
+		Adapt.userLevelGradingBoundaries.processFeedback();
 	});
 
 	Adapt.userLevelGradingBoundaries = userLevelGradingBoundaries;

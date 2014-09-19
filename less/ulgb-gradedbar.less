@@ -1,0 +1,66 @@
+.chart.gradedbar {
+	position: relative;
+	.chart-container{
+		height:50%;
+		width:100%;
+		position:relative;
+		.bar-border {
+			width: 100%;
+			height: 50%;
+			background-color: blue;
+			border: 3px solid black;
+			border-radius: 3px;
+			position:relative;
+			top:17%;
+			.bar {
+				width: 0%;
+				height: 100%;
+				background-color: white;
+			}
+		}
+		.boundary-border {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			left: 0px;
+			top: 0px;
+			.boundary {
+				bottom: 0px;
+				top: 0px;
+				position: absolute;
+				border-left: 3px solid black;
+			}
+			.boundary:first-child {
+				border-left: none;
+			}
+		}
+	}
+	.labels-top {
+		width:100%;
+		height:25%;
+		.label-top {
+			height:100%;
+			width: 50px !important;
+			position:absolute;
+			text-align:center;
+			transform: translateX(-45%);
+		}
+		.label-top:first-child {
+			display:none;
+		}
+	}
+	.labels-bottom {
+		width:100%;
+		height:25%;
+		.label-bottom {
+			height:100%;
+			width: 100px !important;
+			position:absolute;
+			text-align:center;
+			transform: translateX(-48%);
+		}
+		.label-bottom:first-child {
+			display:none;
+		}
+	}
+}
