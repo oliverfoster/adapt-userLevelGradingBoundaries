@@ -75,6 +75,63 @@ html.user-level-grading-boundaries {
 				}
 			}
 		}
+
+
 	}
 
+}
+
+#ulgb-results {
+    width: 35px;
+
+    &:before {
+        content: '';
+    }
+
+    &:after {
+    	content:'';
+    }
+
+    &.fail {
+    	div {
+    		background-image: url(../../assets/fail.png);
+    		background-repeat: no-repeat;
+    	}
+    }
+    &.bronze {
+    	div {
+    		background-image: url(../../assets/bronze.png);
+    		background-repeat: no-repeat;
+    	}
+    }
+    &.silver {
+    	div {
+    		background-image: url(../../assets/silver.png);
+    		background-repeat: no-repeat;
+    	}
+    }
+    &.gold {
+    	div {
+    		background-image: url(../../assets/gold.png);
+    		background-repeat: no-repeat;
+    	}
+    }
+
+    div {
+        margin-right: 2px;
+        font-family: @font-family;
+        font-size: 16px;
+        vertical-align: top;
+        line-height: 1.6;
+        font-weight: 600;
+        width: 24px;
+		height: 24px;
+
+        .progress-count {
+            font-size: 13px;
+		    left: 24px;
+		    position: relative;
+		    top: -12px;
+        }
+    }
 }

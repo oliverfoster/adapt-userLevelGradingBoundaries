@@ -93,7 +93,7 @@ define(function(require) {
 					break;
 				case "averagePoints":
 					settings.columns.push(['_averagePoints', thisHandle.data._averagePoints]);
-					settings.columns.push(['_maxPoints', thisHandle.data._maxPoints - thisHandle.data._averagePoints]);
+					settings.columns.push(['_maxPoint', thisHandle.data._maxPoint - thisHandle.data._averagePoints]);
 					break;
 				case "rightFirstTime":
 					if (thisHandle.data._completeDescendentComponents === 0) {
@@ -110,8 +110,13 @@ define(function(require) {
 					settings.columns.push(['_bar', 100]);
 					break;
 				case "forecastForFinalAssessment":
-					settings.columns.push(['_countBankQuestions', thisHandle.data._countBankQuestions]);
-					settings.columns.push(['_bankQuestions', thisHandle.data._maxBankQuestions - thisHandle.data._countBankQuestions]);
+					if (thisHandle.data._isComplete) {
+						settings.columns.push(['_countBankQuestions', thisHandle.data._countBankQuestions]);
+						settings.columns.push(['_bankQuestions', thisHandle.data._maxBankQuestions - thisHandle.data._countBankQuestions]);
+					} else {
+						settings.columns.push(['_projectedBankQuestions', thisHandle.data._projectedBankQuestions]);
+						settings.columns.push(['_bankQuestions', thisHandle.data._maxBankQuestions - thisHandle.data._projectedBankQuestions]);
+					}
 					break;
 				case "pageLevelView":
 					settings.columns.push(['_descendentComponents', thisHandle.data._components.length]);
@@ -297,15 +302,47 @@ define(function(require) {
 				var $bindto = $(bindto);
 				$bindto.html("").append(gradedbar);
 
+				var mode = "_scoreAsPercent";
+
 				this.data._marking.sort(function(a,b) { 
-					return a._forScoreAsPercent._max - b._forScoreAsPercent._max;
+					if (a._forScoreAsPercent !== undefined && b._forScoreAsPercent !== undefined) {
+						return a._forScoreAsPercent._max - b._forScoreAsPercent._max;
+					} else if (a._forAveragePoints !== undefined && b._forAveragePoints !== undefined) {
+						mode = "_forAveragePoints";
+						return a._forAveragePoints._max - b._forAveragePoints._max;
+					} else if (a._forPoints !== undefined && b._forPoints !== undefined) {
+						mode = "_forPoints"
+						return a._forPoints._max - b._forPoints._max;
+					}
 				} );
 
-				for (var i = 0; i < this.data._marking.length; i++) {
-					$bindto.find(".labels-top").append($('<div class="label-top ' + this.data._marking[i]._mark + '" style="left:' + (this.data._marking[i]._forScoreAsPercent._min) + '%;">' + this.data._marking[i]._forScoreAsPercent._min + '%</div>'));
-					$bindto.find(".boundary-border").append($('<div class="boundary ' + this.data._marking[i]._mark + '" style="left:' + (this.data._marking[i]._forScoreAsPercent._min) + '%;"></div>'));
-					$bindto.find(".labels-bottom").append($('<div class="label-bottom ' + this.data._marking[i]._mark + '" style="left:' + (this.data._marking[i]._forScoreAsPercent._min) + '%;">' + this.data._marking[i].displayMark + '</div>'));
+				switch(mode) {
+				case "_scoreAsPercent":
+					for (var i = 0; i < this.data._marking.length; i++) {
+						$bindto.find(".labels-top").append($('<div class="label-top ' + this.data._marking[i]._mark + '" style="left:' + (this.data._marking[i]._forScoreAsPercent._min) + '%;">' + this.data._marking[i]._forScoreAsPercent._min + '%</div>'));
+						$bindto.find(".boundary-border").append($('<div class="boundary ' + this.data._marking[i]._mark + '" style="left:' + (this.data._marking[i]._forScoreAsPercent._min) + '%;"></div>'));
+						$bindto.find(".labels-bottom").append($('<div class="label-bottom ' + this.data._marking[i]._mark + '" style="left:' + (this.data._marking[i]._forScoreAsPercent._min) + '%;">' + this.data._marking[i].displayMark + '</div>'));
+					}
+					break;
+				case "_forAveragePoints":
+					// for (var i = 0; i < this.data._marking.length; i++) {
+					// 	$bindto.find(".labels-top").append($('<div class="label-top ' + this.data._marking[i]._mark + '" style="left:' + ((100 / this.data._maxPoint) * this.data._marking[i]._forAveragePoints._min) + '%;">' + this.data._marking[i]._forAveragePoints._min + '</div>'));
+					// 	$bindto.find(".boundary-border").append($('<div class="boundary ' + this.data._marking[i]._mark + '" style="left:' + ((100 / this.data._maxPoint) * this.data._marking[i]._forAveragePoints._min) + '%;"></div>'));
+					// 	$bindto.find(".labels-bottom").append($('<div class="label-bottom ' + this.data._marking[i]._mark + '" style="left:' + ((100 / this.data._maxPoint) * this.data._marking[i]._forAveragePoints._min) + '%;">' + this.data._marking[i].displayMark + '</div>'));
+					// }
+
+					var $container = $('<div class="medal-container"></div>');
+					for(var i=0, marking=0; marking=this.data._marking[i]; i++){
+						
+						var medalClassStatus = model._averagePoints >= marking._forAveragePoints._min && model._averagePoints <= marking._forAveragePoints._max ? " active-medal" : "";
+						var html = '<div class="medal ' + marking._mark  + medalClassStatus +'"> <div class="medal-inner"><img class="medal-image" src="adapt/css/assets/medal_'+ marking._mark+'.png" /><div class="medal-label">'+marking.displayMark+'</div></div></div>';
+						$container.append(html);						
+					}
+					$bindto.append($container);
+				case "_forPoints":
+
 				}
+				
 				$bindto.find(".bar-border").css("background-color", settings.colors[1]);
 				$bindto.find(".bar").css("background-color", settings.colors[0]);
 

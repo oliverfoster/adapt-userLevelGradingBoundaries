@@ -29,7 +29,7 @@ define(function(require) {
 		postRender: function () {
 
 		},
-		onClose: function() {
+		onClose: function(event) {
 			event.preventDefault();
 			
 			Adapt.trigger("userLevelGradingBoundaries:resultsClose");

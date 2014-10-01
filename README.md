@@ -210,6 +210,40 @@ To define a points and/or marking system use:
                     },
                     "_mark": "distinction",
                     "displayMark": "Distinction"
+                },
+
+                //or
+                {
+                    "_forAveragePoints": {
+                        "_min": 0,
+                        "_max": 0.499
+                    },
+                    "_mark": "fail",
+                    "displayMark": "Ungraded"
+                },
+                {
+                    "_forAveragePoints": {
+                        "_min": 0.5,
+                        "_max": 0.999
+                    },
+                    "_mark": "bronze",
+                    "displayMark": "Bronze"
+                },
+                {
+                    "_forAveragePoints": {
+                        "_min": 1,
+                        "_max": 1.499
+                    },
+                    "_mark": "silver",
+                    "displayMark": "Silver"
+                },
+                {
+                    "_forAveragePoints": {
+                        "_min": 1.5,
+                        "_max": 2
+                    },
+                    "_mark": "gold",
+                    "displayMark": "Gold"
                 }
             ]
         }
